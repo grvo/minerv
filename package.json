@@ -3,6 +3,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "fs": "^0.0.1-security",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "semver": "^7.3.4"
   }
 }
