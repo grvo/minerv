@@ -1,0 +1,38 @@
+= link_to root_path do
+    = render partial: 'shared/logo', formats: :svg
+
+%h1= _('offline')
+    .container
+        %h3= _('você atualmente está offline, ou a instância gitlab não é alcançável.')
+
+        %p= _('no background, tentaremos conectar você novamente.')
+
+        -# haml-lint:disable InlineJavaScript
+
+        :javascript
+            window.addEventListener('online', () => {
+                window.location.reload();
+            });
+
+            async function checkNetworkAndReload() {
+                try {
+                    const response = await fetch('.');
+
+                    // verificar por response válida do servidor
+                    if (response.status >= 200 && response.status < 500) {
+                        window.location.reload();
+
+                        return;
+                    }
+                } catch {
+                    // incapaz de conectar ao servidor... ignorar
+                }
+
+                window.setTimeout(checkNetworkAndReload, 2500);
+            }
+
+            if (window.location.pathname.endsWith('/-/offline')) {
+                return;
+            }
+
+            checkNetworkAndReload();
