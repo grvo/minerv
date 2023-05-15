@@ -3,7 +3,7 @@
 # baseado em https://github.com/rmosolgo/graphql-ruby/blob/v1.11.8/lib/graphql/subscriptions/action_cable_subscriptions.rb#L19-L82
 # modificado para trabalhar com meu próprio cliente actioncablelink
 
-class GraphqlChannel < ApplicationCable::Channel # rubocop:disable Gitlab/NamespacedClass
+class GraphqlChannel < ApplicationCable::Channel # rubocop:disable gitlab/namespacedclass
     def subscribed
         @subscriptions_ids = []
 
