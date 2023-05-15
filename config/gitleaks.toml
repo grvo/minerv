@@ -1,0 +1,26 @@
+title = "extensão de configuração de gitleaks padrão"
+
+[extend]
+# extende o path padrão
+path = "/gitleaks.toml"
+
+[allowlist]
+    description = "lista de allows globais"
+    regexTarget = "match"
+
+    regexes = [
+        # doc/user/application_security/secret_detection/index.md
+        "glpat-1234567890abcdefghij",
+
+        # spec/frontend/lib/utils/secret_detection_spec.js
+        "glpat-cgyKc1k_AsnEpmP-5fRL",
+
+        # spec/frontend/lib/utils/secret_detection_spec.js
+        "GlPat-abcdefghijklmnopqrstuvwxyz",
+
+        # doc/development/sec/token_revocation_api.md
+        "glpat--8GMtG8Mf4EnMJzmAWDU",
+
+        # doc/development/sec/token_revocation_api.md
+        "glpat--tG84EGK33nMLLDE70zU"
+    ]
