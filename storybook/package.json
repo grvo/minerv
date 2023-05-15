@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "sass": "^1.49.9",
+    "sass-loader": "^7.1.0"
+  }
+}
