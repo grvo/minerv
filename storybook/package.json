@@ -4,6 +4,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^6.5.10",
+    "@storybook/addon-actions": "^6.5.10",
+    "@storybook/addon-controls": "^6.5.10",
     "sass": "^1.49.9",
     "sass-loader": "^7.1.0"
   }
