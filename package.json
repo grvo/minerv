@@ -4,6 +4,10 @@
     "axios": "^0.24.0",
     "fs": "^0.0.1-security",
     "lodash": "^4.17.20",
-    "semver": "^7.3.4"
+    "semver": "^7.3.4",
+    "webpack": "^4.46.0",
+    "webpack-bundle-analyzer": "^4.8.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-stats-plugin": "^0.3.1"
   }
 }
