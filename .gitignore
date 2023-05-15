@@ -1,1 +1,15 @@
+*.log
+*.swp
+*.mo
+*.edit.po
+*.rej
+
+.dir-locals.el
+.DS_Store
+
+.bundle
+.chef
+.directory
+.eslintcache
+
 /node_modules
