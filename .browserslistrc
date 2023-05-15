@@ -1,0 +1,18 @@
+#
+# essa lista de navegadores é uma definição conservativa, baseada em
+# https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers
+# pelas seguintes razões:
+#
+# - deve-se suportar o mais recente esr do firefox 91
+# - deve-se usar o edge/chrome >= 92
+# - deve-se usar o safari 14.1
+#
+# veja também esse épico https://gitlab.com/groups/gitlab-org/-/epics/3957
+#
+
+chrome >= 92
+edge >= 92
+
+firefox >= 91
+
+safari >= 14.1
