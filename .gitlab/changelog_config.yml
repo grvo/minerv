@@ -1,0 +1,43 @@
+---
+# configurações por changelogs geradas usando a api da gitlab
+# https://docs.gitlab.com/ee/api/repositories.html#generate-changelog-data
+categories:
+  added: adicionado
+  fixed: corrigido
+  changed: alterado
+  deprecated: deprecado
+  removed: removido
+  security: segurança
+  performance: performance
+  other: outro
+
+include_groups:
+  - gitlab-org/gitlab-core-team/community-members
+
+template: |
+  {% if categories %}
+  {% each categories %}
+  ### {{ title }} ({% if single_change %}1 change{% else %}{{ count }} changes{% end %})
+
+  {% each entries %}
+  - [{{ title }}]({{ commit.reference }})\
+  {% if author.credit %} by {{ author.reference }}{% end %}\
+  {% if commit.trailers.MR %}\
+   ([merge request]({{ commit.trailers.MR }}))\
+  {% else %}\
+  {% if merge_request %}\
+   ([merge request]({{ merge_request.reference }}))\
+  {% end %}\
+  {% end %}\
+  {% if commit.trailers.EE %}\
+   **minerv enterprise edition**\
+  {% end %}
+
+  {% end %}
+
+  {% end %}
+  {% else %}
+  sem mudanças.
+  {% end %}
+  
+tag_regex: '^v(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)-ee$'
