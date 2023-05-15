@@ -1,0 +1,11 @@
+---
+
+exclusions:
+  # veja https://github.com/flyerhzm/bullet#configuration para formats de exclusão
+
+  group_member_presenter_managing_group:
+    merge_request: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/58927'
+    path_with_method: true
+    exclue:
+      - 'ee/app/presenters/ee/group_member_presenter.rb'
+      - 'group_managed_account?'

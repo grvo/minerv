@@ -1,0 +1,2 @@
+# esse arquivo é criado apenas para habilitar para rodar a task `derailed exec perf:mem`
+# essa task carrega toda a aplicação rails usando seus próprios inicializadores
