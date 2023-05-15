@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.24.0",
+    "bootstrap": "^4.6.2",
     "fs": "^0.0.1-security",
     "lodash": "^4.17.20",
     "semver": "^7.3.4",
