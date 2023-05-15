@@ -9,6 +9,9 @@
     "jest:integration": "jest --config jest.config.integration.js"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "apollo-upload-client": "^15.0.0",
+    "apollo3-cache-persist": "^0.14.1",
     "axios": "^0.24.0",
     "bootstrap": "^4.6.2",
     "fs": "^0.0.1-security",
