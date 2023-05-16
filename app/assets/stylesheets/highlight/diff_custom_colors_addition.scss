@@ -1,0 +1,37 @@
+/**
+ * variáveis css usadas abaixo estão declaradas em
+ * app/views/layouts/_diffs_colors_css.haml
+ */
+.diff-custom-addition-color {
+    .code {
+        .line_holder {
+            .diff-line-num,
+            .line-coverage,
+            .line-codequality,
+            .line_content {
+                &.new {
+                    &:not(.hll) {
+                        background: var(--diff-animation-color);
+                    }
+
+                    &.line_content span.diff {
+                        background: var(--diff-animation-color) !important;
+                    }
+
+                    &::before,
+                    a {
+                        mix-blend-mode: luminosity;
+                    }
+                }
+            }
+        }
+
+        .gi {
+            background-color: var(--diff-addition-color);
+        }
+    }
+
+    .idiff.addition {
+        background: var(--diff-addition-color) !important;
+    }
+}
