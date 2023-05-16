@@ -8,6 +8,17 @@
       {
         "html-has-lang": "off"
       }
+    ],
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "mask-image",
+          "mask-repeat",
+          "mask-size",
+          "mask-position"
+        ]
+      }
     ]
   }
 }
