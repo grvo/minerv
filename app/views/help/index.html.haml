@@ -1,0 +1,63 @@
+%div
+- if Gitlab::CurrentSettings.help_page_text.present?
+	.gl-mt-3.md
+		= markdown_field(Gitlab::CurrentSettings.current_application_settings, :help_page_text)
+	%hr
+	
+.gl-display-flex.gl-align-items-flex-end
+	%h1.gl-mt-5.gl-mb-3
+		= default_brand_title
+		
+		- if user_signed_in?
+			%span= link_to_version
+			
+	- if show_version_check?
+		%span.gl-mt-5.gl-mb-3.gl-ml-3
+			.js-gitlab-version-check-badge{ data: { "size": "lg", "actionable": "true", "version": gitlab_version_check.to_json } }
+			
+%hr
+
+- unless Gitlab::CurrentSettings.help_page_hide_commercial_content?
+	%p.slead
+		= _('minerv é um software open-source para colaborar programando.')
+		%br
+		= _('gerencie repositórios git com acesso a todos os recursos e ferramentas para manter seu código seguro.')
+		%br
+		= _('performe reviews de códigos e impulsione a colaboração postando merge requests.')
+		%br
+		= _('cada projeto pode ter o tracker de erros e uma wiki.')
+		%br
+		= _('usado por mais de 100,000 organizações, minerv é a melhor solução para gerenciar repositórios git.')
+		%br
+		- link_to_promo = link_to(promo_host, promo_url, target: 'blank', rel: 'noreferrer')
+		
+		= _("leia mais sobre minerv em %{link_to_promo}.").html_safe % { link_to_promo: link_to_promo }
+		
+%p= link_to _('checar a configuração atual '), help_instance_configuration_url
+
+%hr
+
+.row-gl-mt-3
+	.col-md-8
+		.md
+			= markdown(@help_index)
+			
+	.col-md-4
+		.card-links-card
+			.card-header
+				= _('ajuda rápida')
+				
+			%ul.content-list
+				%li= link_to _('veja nosso website para ajuda'), support_url, { class: 'gl-text-blue-600!' }
+				
+				%li
+					%button.btn-blank.btn-link.js-trigger-search-bar{ type: 'button' }
+						= _('use a barra de pesquisa no topo dessa página')
+						
+				%li
+					%button.btn-blank.btn-link.js-trigger-shortcut{ type: 'button' }
+						= _('use atalhos')
+						
+				- unless Gitlab::CurrentSettings.help_page_hide_commercial_content?
+					%li= link_to _('obter inscrição de suporte'), "https://#{ApplicationHelper.promo_host}/pricing/", { class: 'gl-text-blue-600!' }
+					%li= link_to _('comparar edições de minerv'), "https://#{ApplicationHelper.promo_host}/features/#compare", { class: 'gl-text-blue-600!' }
