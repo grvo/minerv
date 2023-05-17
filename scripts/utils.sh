@@ -1,3 +1,6 @@
+# todo: finalizar arquivo utils.sh
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/scripts/utils.sh
+
 function retry() {
 	retry_times_sleep 2 3 "$@"
 }
