@@ -43,7 +43,13 @@ class GraphqlChannel < ApplicationCable::Channel # rubocop:disable gitlab/namesp
 
     private
 
+    # quando o contexto está sendo modificado, atualizar também graphqlcontroller#context se necessário
+    # então, contextos similares ao executar queries, mutações e subscriptions
+    #
+    # objetos adicionados ao contexto devem também ser recarregados em
+    # subscriptions::basesubscription
     def context
+        # is_sessionless_user é sempre falso porque apenas suporta autenticação de cookie em actioncable
         {
             channel: self,
             current_user: current_user,
