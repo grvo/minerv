@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
+// imports
 import { logger } from '@rails/actioncable';
 
 // baseado em https://github.com/rails/rails/blob/5a477890c809d4a17dc0dede43c6b8cef81d8175/actioncable/app/javascript/action_cable/connection_monitor.js
