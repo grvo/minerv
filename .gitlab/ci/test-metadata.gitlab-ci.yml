@@ -1,0 +1,51 @@
+.tests-metadata-state:
+  image: ${GITLAB_DEPENDENCY_PROXY_ADDRESS}ruby:${RUBY_VERSION}
+  before_script:
+    - source scripts/utils.sh
+  artifacts:
+    expire_in: 31d
+    paths:
+      - knapsack/
+      - rspec/
+      - crystalball/
+    when: always
+
+retrieve-tests-metadata:
+  extends:
+    - .tests-metadata-state
+    - .test-metadata:rules:retrieve-tests-metadata
+  # usar imagem menor para apenas esse job (update-tests-metadata compila algumas gemas)
+  image: ${GITLAB_DEPENDENCY_PROXY_ADDRESS}ruby:${RUBY_VERSION}-slim
+  stage: prepare
+  script:
+    - apt-get update && apt-get install -y curl  # não é presente em ruby-slim, então, adicionar manualmente
+    - install_gitlab_gem
+    - source ./scripts/rspec_helpers.sh
+    - retrieve_tests_metadata
+
+update-tests-metadata:
+  extends:
+    - .tests-metadata-state
+    - .test-metadata:rules:update-tests-metadata
+  stage: post-test
+  dependencies:
+    - retrieve-tests-metadata
+    - generate-frontend-fixtures-mapping
+    - setup-test-env
+    - rspec migration pg13
+    - rspec-all frontend_fixture
+    - rspec unit pg13
+    - rspec integration pg13
+    - rspec system pg13
+    - rspec background_migration pg13
+    - rspec-ee migration pg13
+    - rspec-ee unit pg13
+    - rspec-ee integration pg13
+    - rspec-ee system pg13
+    - rspec-ee background_migration pg13
+  script:
+    - run_timed_command "retry gem install fog-aws mime-types activesupport rspec_profiling postgres-copy --no-document"
+    - source ./scripts/rspec_helpers.sh
+    - test -f "${FLAKY_RSPEC_SUITE_REPORT_PATH}" || echo -e "\e[31m" 'considere adicionar ~"pipeline:run-all-rspec" para rodar jobs de rspec completos' "\e[0m"
+    - update_tests_metadata
+    - update_tests_mapping
