@@ -1,0 +1,31 @@
+# arquivo editorconfig principal
+root = true
+
+# novas linhas de estilo unix com uma linha final para cada arquivo
+[*]
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = false
+
+[*.{js,json,vue,scss,rb,haml}]
+indent_size = 4
+
+[*.{js,json,vue,scss,rb,haml,yaml,yml,md}]
+indent_style = space
+charset = utf-8
+
+[*.{md,markdown,js.snap}]
+trim_trailing_whitespace = false
+
+[doc/**/*.md]
+trim_trailing_whitespace = true
+
+# não aplicar regras editorconfig para recursos vendor/
+[vendor/**]
+charset = unset
+end_of_line = unset
+indent_size = unset
+indent_style = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+max_line_length = unset
