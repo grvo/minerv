@@ -31,8 +31,7 @@
     "lint:stylelint": "stylelint '{ee/,}app/assets/stylesheets/**/*.{css,scss}'",
     "lint:stylelint:fix": "yarn run lint:stylelint --fix",
     "lint:stylelint:staged": "scripts/frontend/execute-on-staged-files.sh stylelint '(css|scss)' -q",
-    "lint:stylelint:staged:fix": "yarn run lint:stylelint:staged --fix",
-
+    "lint:stylelint:staged:fix": "yarn run lint:stylelint:staged --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
