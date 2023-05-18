@@ -19,6 +19,7 @@
           "mask-position"
         ]
       }
-    ]
+    ],
+    "meta-viewport": "off"
   }
 }
