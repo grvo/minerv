@@ -4,7 +4,7 @@
 module Pajamas
     class AlertComponent < Pajamas::Component
         # @param [String] title
-        
+
         # @param [Symbol] variant
 
         # @param [Boolean] dismissible
@@ -54,6 +54,16 @@ module Pajamas
 
         def icon_classes
             "gl-alert-icon#{' gl-alert-icon-no-title' if @title.nil?}"
+        end
+
+        def dismissible_button_options
+            new_options = @close_button_options.deep_symbolize_keys # em caso de strings sendo utilizadas
+
+            new_options[:class] = "js-close gl-dismiss-btn #{new_options[:class]}"
+            new_options[:aria] ||= {}
+            new_options[:aria][:label] = _('dispensar')
+
+            new_options
         end
     end
 end
