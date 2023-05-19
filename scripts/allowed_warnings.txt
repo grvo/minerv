@@ -1,0 +1,30 @@
+# lista de avisos ignorados usado por `fail_on_warnings` e `scripts/utils.sh`
+# cada linha é um regexp e representa um match usado por
+# `grep --invert-match --extended-regexp --file`
+#
+# comentários e linhas vazias são ignoradas
+
+# https://github.com/browserslist/browserslist/blob/d0ec62eb48c41c218478cd3ac28684df051cc865/node.js#L329
+# avisos se a package caniuse-lite é mais antiga que 6 meses. ignorar essa
+# mensagem de aviso assim então, backports do gitlab não falharão.
+browserslist: caniuse-lite is outdated\. por favor, rode o próximo comando `yarn upgrade`
+
+# https://github.com/mime-types/mime-types-data/pull/50#issuecomment-1060908930
+tipagem application/netcdf já está registrada como variante de application/netcdf\.
+
+# esses avisos são emitidos por scripts/static-analysis.
+\*\*\*\* .+ possui o(s) seguinte(s) aviso\(s\):
+
+# ruby 3 extrai net-protocol em uma gema separada, enquanto o ruby 2 possui um built-in
+# isso pode ser removido quando o suporte para o ruby 2 for derrubado
+2\.7\.0\/gems\/net-protocol-0\.1\.3\/lib\/net\/protocol\.rb:208: warning: constante já inicializou net::bufferedio::bufsize
+ruby\/2\.7\.0\/net\/protocol\.rb:206: warning: a definição anterior de bufsize estava aqui
+2\.7\.0\/gems\/net-protocol-0\.1\.3\/lib\/net\/protocol\.rb:504: warning: constante já inicializou net::netprivate::socket
+ruby\/2\.7\.0\/net\/protocol\.rb:503: warning: a definição anterior de socket estava aqui
+2\.7\.0\/gems\/net-protocol-0\.1\.3\/lib\/net\/protocol\.rb:68: warning: constante já inicializou net::protocretryerror
+ruby\/2\.7\.0\/net\/protocol\.rb:66: warning: a definição anterior de protocretryerror estava aqui
+
+# ruby 3 não emite avisos para a pattern, e se está funcionando bem em
+# ambos os ruby (2 e 3), mudará novamente.
+# isso pode ser removido quando o suporte para o ruby 2 for derrubado.
+warning: a pattern coincidida é experimental, e o behavior pode ser alterado em futuras versões do ruby.
