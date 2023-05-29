@@ -1,0 +1,12 @@
+/app/assets/javascripts/locale/**/app.js
+/fixtures/lib/gitlab/graphql/
+/node_modules/
+/public/
+/vendor/
+/tmp/
+/sitespeed-result/
+
+# ignorar arquivos de estilizações por agora
+*.css
+*.scss
+*.md
