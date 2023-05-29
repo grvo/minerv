@@ -1,0 +1,138 @@
+.project-mirror-settings {
+    .known-hosts {
+        font-family: $monospace-font;
+    }
+
+    .fingersprints-list {
+        code {
+            display: block;
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+
+        &.invalidate {
+            text-decoration: line-through;
+        }
+    }
+}
+
+.project-mirror-text {
+    @include media-breakpoint-up(sm) {
+        float: left;
+        line-height: 35px;
+    }
+}
+
+.project-mirror-button {
+    margin-top: 10px;
+
+    @include media-breakpoint-up(sm) {
+        float: right;
+        margin-top: 0;
+    }
+}
+
+.project-list {
+    .project-details {
+        .compliance-framework-pill {
+            margin: 1px 0;
+        }
+    }
+}
+
+.git-clone-holder {
+    .btn-geo {
+        border-left: 0;
+    }
+}
+
+.security-dashboard {
+    .card-header {
+        padding: $gl-padding;
+        background-color: $gray-light;
+
+        .user-avatar-link {
+            color: $gl-text-color;
+            font-weight: $gl-font-weight-bold;
+        }
+
+        .avatar {
+            float: none;
+            margin-right: $gl-padding-4;
+        }
+    }
+
+    .split-report-section:last-of-type {
+        border-bottom: 0;
+    }
+}
+
+.license-management {
+    li.list-group-item {
+        line-height: $gl-padding-32;
+    }
+  
+    .dropdown-toggle {
+        min-width: $gl-padding-8 * 15;
+    }
+  
+    .btn-blank {
+        padding: 6px 10px;
+    }
+}
+
+.security-dashboard .card-header svg,
+.license-management .dropdown-item svg {
+    vertical-align: sub;
+}
+
+.project-template {
+    .template-header,
+    .template-option {
+        padding: $gl-padding $gl-padding-8;
+    }
+  
+    .template-header {
+        cursor: pointer;
+    
+        .template-options-icon-container {
+            width: 24px;
+            height: 24px;
+        }
+    }
+  
+    .template-group-options {
+        &.expanded {
+            .template-option {
+                display: flex;
+            }
+    
+            .options-expanded-icon {
+                display: block;
+            }
+        }
+    
+        .options-expanded-icon,
+        &.expanded .options-collapsed-icon {
+            display: none;
+        }
+    }
+  
+    .template-option {
+        display: none;
+    
+        .avatar-container {
+            margin-left: 34px;
+        }
+    }
+  
+    .template-input-group {
+        .avatar {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: $gl-font-size;
+            margin-right: 0;
+        }
+    }
+}
