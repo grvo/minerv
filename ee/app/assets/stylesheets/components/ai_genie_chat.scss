@@ -1,0 +1,103 @@
+.ai-genie-chat {
+    .message-enter-active,
+    .message-leave-active {
+        transition: all 0.5s ease;
+    }
+
+    .message-enter,
+    .message-leave-to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .loader-enter-active,
+    .loader-leave-active {
+        transition: opacity 0.5s ease;
+    }
+
+    .loader-enter,
+    .loader-leave-to {
+        opacity: 0;
+    }
+
+    .loader-leave-active {
+        position: absolute;
+    }
+}
+
+.ai-genie-chat-message {
+    max-width: 90%;
+  
+    pre,
+    code {
+        @include gl-font-sm;
+        @include gl-bg-gray-100;
+    }
+  
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.ai-genie-loader {
+    max-width: unset;
+  
+    &__dot {
+        display: inline-block;
+
+        width: 0.5rem;
+        height: 0.5rem;
+
+        background-color: $gray-400;
+        border-radius: 100%;
+        animation: AIGenieLoading 1400ms ease-in-out infinite;
+        animation-fill-mode: both;
+    }
+  
+    &__dot--1 {
+        animation-delay: -0.3s;
+    }
+  
+    &__dot--2 {
+        animation-delay: -0.15s;
+    }
+}
+  
+@keyframes AIGenieLoading {
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+  
+    40% {
+        transform: scale(1);
+    }
+}
+  
+.ai-genie-chat-input {
+    display: inline-grid;
+  
+    &:focus-within {
+        @include gl-focus($color: $gray-900);
+    }
+  
+    .gl-form-textarea.form-control,
+    &::after {
+        grid-area: 2/1;
+        resize: none;
+        max-height: 240px;
+    }
+  
+    .gl-form-textarea.form-control {
+        width: calc(100% - 40px);
+    }
+  
+    &::after {
+        content: attr(data-value) ' ';
+
+        @include gl-visibility-hidden;
+        @include gl-white-space-pre-wrap;
+        @include gl-py-4;
+    }
+}
