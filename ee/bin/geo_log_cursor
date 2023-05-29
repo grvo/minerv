@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require_relative '../../config/bundler_setup'
+require 'optparse'
+
+def rails_path(relname)
+    Pathname.new(__FILE__).dirname.join('../..').join(relname).realpath
+end
+
+class GeoLogCursorOptionParser
+    def self.parse(argv)
+        options = {}
+
+        op = OptionParser.new
+        op.banner = 'minerv geo: log cursor'
+        op.separator ''
+        op.separator 'uso: ./geo_log_cursor [options]'
+        op.separator ''
+        op.on('-d', '--debug', 'habilitar logging detalhado para informações de debug extra') { options[:debug] = true }
+        op.on('--stdout-logging', 'registrar output para o stdout') { options[:stdout_logging] = true }
+
+        op.separator 'opções de common:'
+
+        op.on('-h', '--help') do
+            puts op.to_s
+            exit
+        end
+
+        op.on('-v', '--version') do
+            # carregar apenas bibliotecas necessárias para startup mais rápida
+            require rails_path('ee/lib/gitlab/geo/log_cursor/daemon.rb')
+
+            puts Gitlab::Geo::LogCursor::Daemon::VERSION
+
+            exit
+        end
+
+        op.separator ''
+
+        op.parse!(argv)
+
+        options
+    end
+end
+
+if $PROGRAM_NAME == __FILE__
+    options = GeoLogCursorOptionParser.parse(ARGV)
+
+    # carregar ambientes rails
+    # carregar inicializadores apenas aqui para linha de comando mais rápida
+    require rails_path('config/environment.rb')
+
+    if options[:stdout_logging]
+        Gitlab::Geo::Logger.extend(Gitlab::Geo::Logger::StdoutLogger)
+    end
+
+    Gitlab::Geo::LogCursor::Daemon.new(options).run!
+end
