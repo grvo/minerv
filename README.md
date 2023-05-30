@@ -4,7 +4,7 @@
 
 a fonte canônica do beglamore onde todo o desenvolvimento está alocado está hosteado no gitlab.com
 
-se você deseja clonar ou copiar o beglamore sem código prioritário, você pode usar o painel de apenas leitura do beglamore localizado em https://github.com/grvo/beglamore. entretanto, por favor não submita nenhum issue e/ou merge requests nesse projeto.
+se você deseja clonar ou copiar o minerv sem código prioritário, você pode usar o painel de apenas leitura do minerv localizado em https://github.com/grvo/minerv. entretanto, por favor não submita nenhum issue e/ou merge requests nesse projeto.
 
 ## free trial
 
