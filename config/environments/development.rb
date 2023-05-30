@@ -83,7 +83,7 @@ Rails.application.configure do
 
     # reajustar algumas configurações relacionadas à performance
     if Gitlab::Utils.to_boolean(ENV['RAILS_PROFILE'].to_s)
-        warn "hot-reloading é desativado quando você está rodando com RAILS_PROFILE ativado"
+        warn "hot-reloading é desativado quando você está rodando com rails_profile ativado"
 
         config.cache_classes = true
         config.eager_load = true
