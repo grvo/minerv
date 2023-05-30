@@ -1,0 +1,4 @@
+---
+# cop suporta --autocorrect
+Security/IoMethods:
+  Details: período grace
