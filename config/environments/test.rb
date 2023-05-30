@@ -5,6 +5,7 @@ require 'gitlab/testing/request_blocker_middleware'
 require 'gitlab/testing/robots_blocker_middleware'
 require 'gitlab/testing/request_inspector_middleware'
 require 'gitlab/testing/clear_process_memory_cache_middleware'
+
 require 'gitlab/utils'
 
 Rails.application.configure do
