@@ -1,0 +1,12 @@
+%p
+    #{link_to @abuse_report.user.name, user_url(@abuse_report.user)}
+    (@#{@abuse_report.user.username}) foi reportado por abuso por
+
+    #{link_to @abuse_report.reporter.name, user_url(@abuse_report.reporter)}
+    (@#{@abuse_report.reporter.username}).
+
+.blockquote
+    = @abuse_report.message
+
+%p
+    = link_to "ver detalhes", admin_abuse_reports_url
