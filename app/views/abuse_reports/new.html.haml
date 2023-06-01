@@ -1,0 +1,58 @@
+- page_title _("Report abuse to administrator")
+
+.row
+    .col-lg-8
+        %h1.page-title.gl-font-size-h-display
+            = _("reportar abuso para administrador")
+
+        %p
+            = _("por favor, utilize esse form para reportar ao administrador, usuários que criam spam de issues, comentários ou que comportar-se de forma inadequada.")
+            = _("um membro da equipe de abuso analisará sua denúncia o mais rápido possível.")
+
+= gitlab_ui_form_for @abuse_report, html: { class: 'js-quick-submit'} do |f|
+    .row
+        .col-lg-8
+            = form_errors(@abuse_report)
+
+    = f.hidden_field :user_id
+    = f.hidden_field :category
+
+    .form-group.row
+        .col-lg-8
+            = f.label :reported_user
+
+            - name = "#{@abuse_report.user.name} (@#{@abuse_report.user.username})"
+            = text_field_tag :user_name, name, class: "form-control", readonly: true
+
+    .form-group.row
+        .col-lg-8
+            = f.label :reported_from
+            = f.text_field :reported_from_url, class: "form-control", readonly: true
+
+    #js-links-to-spam{ data: { links: Array(@abuse_report.links_to_spam) } }
+
+    .form-group.row
+        .col-lg-8
+            = f.label :screenshot do
+                %span
+                    = _('reportarabuso|screenshot')
+
+                .gl-font-weight-normal
+                    = s_('reportarabsuo|screenshot do abuso')
+
+            %div
+                = render 'shared/file_picker_button', f: f, field: :screenshot, help_text: _("a captura de tela deve ter menos de 1 mb."), mime_types: valid_image_mimetypes
+
+    .form-group.row
+        .col-lg-8
+            = f.label :reason
+            = f.text_area :message, class: "form-control", rows: 4, required: true
+
+            .form-text.text-muted
+                = _("explique porquê você está reportando o usuário.")
+
+    = render Pajamas::ButtonComponent.new(type: :submit, variant: :confirm) do
+        = _('enviar report')
+
+    = render Pajamas::ButtonComponent.new(href: @abuse_report.reported_from_url, button_options: { class: 'gl-ml-3' }) do
+        = _('cancelar')
