@@ -1,0 +1,20 @@
+- page_title _("IDE"), @project.full_name
+
+- unless use_new_web_ide?
+    - add_page_specific_style 'page_bundles/build'
+    - add_page_specific_style 'page_bundles/ide'
+
+    - content_for :prefetch_asset_tags do
+        - webpack_preload_asset_tag('monaco')
+
+- data = ide_data(
+    project: @project,
+    fork_info: @fork_info,
+    params: params
+)
+
+= render partial: 'shared/ide_root', locals: {
+    data: data,
+
+    loading_text: _('carregando a ide do minerv...')
+}
