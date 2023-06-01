@@ -1,0 +1,40 @@
+---
+extends:
+  - 'plugin:@gitlab/jest'
+
+settings:
+  # temos que ensinar eslint-plugin-import quais módulos de nó usamos
+  # caso contrário, ocorre um erro ao tentar resolvê-los
+
+  import/core-modules:
+    - events
+    - fs
+    - path
+
+  import/resolver:
+    jest:
+      jestConfigFile: 'jest.config.js'
+
+rules:
+  '@gitlab/vtu-no-explicit-wrapper-destroy': error
+
+  jest/expect-expect:
+    - off
+
+    - assertFunctionNames:
+      - 'expect*'
+      - 'assert*'
+      - 'testAction'
+
+  "@gitlab/no-global-event-off":
+    - off
+
+  import/no-unresolved:
+    - error
+
+    # os acessórios de teste e o esquema graphql são gerados dinamicamente no ci
+    # durante os jobs `frontend-fixtures` e `graphql-schema-dump`.
+    #
+    # eles podem não estar presentes durante a formação de fiapos.
+
+    - ignore: ['^test_fixtures\/', 'tmp/tests/graphql/gitlab_schema.graphql']
