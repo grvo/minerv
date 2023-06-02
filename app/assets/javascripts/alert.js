@@ -43,19 +43,117 @@ export const VARIANT_TIP = 'tip';
  * @param {object} options - opções para controlar a mensagem flash
  * @param {string} options.message - texto de mensagem de alerta
  * @param {string} [options.title] - título de alerta
- * @param {VARIANT_SUCCESS|VARIANT_WARNING|VARIANT_DANGER|VARIANT_INFO|VARIANT_TIP} [options.variant] - Which GlAlert variant to use; it defaults to VARIANT_DANGER.
- * @param {object} [options.parent] - Reference to parent element under which alert needs to appear. Defaults to `document`.
- * @param {Function} [options.onDismiss] - Handler to call when this alert is dismissed.
- * @param {string} [options.containerSelector] - Selector for the container of the alert
- * @param {boolean} [options.preservePrevious] - Set to `true` to preserve previous alerts. Defaults to `false`.
+ * @param {VARIANT_SUCCESS|VARIANT_WARNING|VARIANT_DANGER|VARIANT_INFO|VARIANT_TIP} [options.variant] - qual variante do glalert usar; o padrão é variant_danger
+ * @param {object} [options.parent] - referência ao elemento pai sob o qual o alerta precisa aparecer. o padrão é `document`
+ * @param {Function} [options.onDismiss] - manipulador para chamar quando este alerta for dispensado
+ * @param {string} [options.containerSelector] - seletor para o container do alerta
+ * @param {boolean} [options.preservePrevious] - defina como `true` para preservar os alertas anteriores. o padrão é `false`
  * @param {object} [options.primaryButton] - objeto que descreve o botão primário de alerta
  * @param {string} [options.primaryButton.link] - href do botão primário
  * @param {string} [options.primaryButton.text] - texto do botão primário
- * @param {Function} [options.primaryButton.clickHandler] - Handler to call when primary button is clicked on. The click event is sent as an argument.
+ * @param {Function} [options.primaryButton.clickHandler] - manipulador para chamar quando o botão principal é clicado. o evento click é enviado como um argumento
  * @param {object} [options.secondaryButton] - objeto que descreve o botão secundário de alerta
  * @param {string} [options.secondaryButton.link] - href do botão secundário
  * @param {string} [options.secondaryButton.text] - texto do botão secundário
- * @param {Function} [options.secondaryButton.clickHandler] - Handler to call when secondary button is clicked on. The click event is sent as an argument.
- * @param {boolean} [options.captureError] - Whether to send error to Sentry
+ * @param {Function} [options.secondaryButton.clickHandler] - manipulador para chamar quando o botão secundário é clicado. o evento click é enviado como um argumento
+ * @param {boolean} [options.captureError] - se deve enviar o erro para o sentry
  * @param {object} [options.error] - erro a ser capturado no sentry
  */
+export const createAlert = ({
+    message,
+    title,
+    variant = VARIANT_DANGER,
+    parent = document,
+    containerSelector = '.flash-container',
+    preservePrevious = false,
+    primaryButton = null,
+    secondaryButton = null,
+    onDismiss = null,
+    captureError = false,
+    error = null
+}) => {
+    if (captureError && error)
+        Sentry.captureException(error);
+
+    const alertContainer = parent.querySelector(containerSelector);
+
+    if (!alertContainer)
+        return null;
+
+    const el = document.createElement('div');
+
+    if (preservePrevious) {
+        alertContainer.appendChild(el);
+    } else {
+        alertContainer.replaceChildren(el);
+    }
+
+    return new Vue({
+        el,
+
+        components: {
+            GlAlert
+        },
+
+        methods: {
+            /**
+             * método público para ignorar alerta e remover instance do vue
+             */
+            dismiss() {
+                if (onDismiss) {
+                    onDismiss();
+                }
+
+                this.$destroy();
+                this.$el.parentNode?.removeChild(this.$el);
+            }
+        },
+
+        render(h) {
+            const on = {};
+
+            on.dismiss = () => {
+                this.dismiss();
+            };
+
+            if (primaryButton?.clickHandler) {
+                on.primaryButton = (e) => {
+                    primaryButton.clickHandler(e);
+                };
+            }
+
+            if (secondaryButton?.clickHandler) {
+                on.secondaryAction = (e) => {
+                    secondaryButton.clickHandler(e);
+                };
+            }
+
+            return h(
+                GlAlert, {
+                    props: {
+                        title,
+
+                        dismissible: true,
+                        dismissLabel: __('ignorar'),
+
+                        variant,
+
+                        primaryButtonLink: primaryButton?.link,
+                        primaryButtonText: primaryButton?.text,
+
+                        secondaryButtonLink: secondaryButton?.link,
+                        secondaryButtonText: secondaryButton?.text
+                    },
+
+                    attrs: {
+                        'data-testid': `alert-${variant}`
+                    },
+
+                    on
+                },
+
+                message
+            );
+        }
+    });
+};
