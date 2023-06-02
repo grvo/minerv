@@ -1,5 +1,5 @@
 // imports
-// todo: importar sentry --> (import * as Sentry from '@sentry/browser';)
+import * as Sentry from '@sentry/browser';
 import Vue from 'vue';
 
 import { GlAlert } from '@gitlab/ui';
