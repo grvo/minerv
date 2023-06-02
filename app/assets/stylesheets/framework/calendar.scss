@@ -1,0 +1,26 @@
+.user-contrib-cell {
+    &:hover {
+        cursor: pointer;
+
+        stroke: $black;
+    }
+
+    &:focus {
+        @include gl-outline-none;
+
+        stroke: $white;
+
+        filter: drop-shadow(1px 0 0.5px $blue-400) drop-shadow(0 1px 0.5px $blue-400) drop-shadow(-1px 0 0.5px $blue-400) drop-shadow(0 -1px 0.5px $blue-400);
+    }
+
+    // app/assets/javascripts/pages/users/activity_calendar.js seta esse atributo
+    @for $i from 1 through length($calendar-activity-colors) {
+        $color: nth($calendar-activity-colors, $i);
+
+        $level: $i - 1;
+
+        &[data-level='#{$level}'] {
+            fill: $color;
+        }
+    }
+}
