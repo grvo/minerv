@@ -61,6 +61,7 @@
     "@snowplow/browser-plugin-performance-timing": "^3.9.0",
     "@snowplow/browser-plugin-timezone": "^3.9.0",
     "@snowplow/browser-tracker": "^3.9.0",
+    "@sourcegraph/code-host-integration": "^0.0.91",
     "apollo-upload-client": "^15.0.0",
     "apollo3-cache-persist": "^0.14.1",
     "autosize": "^5.0.1",
