@@ -49,23 +49,23 @@ gem 'ruby-saml', '~> 1.13.0'
 gem 'omniauth', '~> 2.1.0'
 gem 'omniauth-auth0', '~> 3.1'
 gem 'omniauth-azure-activedirectory-v2', '~> 2.0'
-gem 'omniauth-azure-oauth2', '~> 0.0.9', path: 'vendor/gems/omniauth-azure-oauth2' # See gem README.md
+gem 'omniauth-azure-oauth2', '~> 0.0.9', path: 'vendor/gems/omniauth-azure-oauth2' # veja a gema de readme.md
 gem 'omniauth-dingtalk-oauth2', '~> 1.0'
 gem 'omniauth-alicloud', '~> 2.0.1'
 gem 'omniauth-facebook', '~> 4.0.0'
 gem 'omniauth-github', '2.0.1'
-gem 'omniauth-gitlab', '~> 4.0.0', path: 'vendor/gems/omniauth-gitlab' # See vendor/gems/omniauth-gitlab/README.md
+gem 'omniauth-gitlab', '~> 4.0.0', path: 'vendor/gems/omniauth-gitlab' # veja vendor/gems/omniauth-gitlab/readme.md
 gem 'omniauth-google-oauth2', '~> 1.1'
 gem 'omniauth-oauth2-generic', '~> 0.2.2'
 gem 'omniauth-saml', '~> 2.1.0'
 gem 'omniauth-twitter', '~> 1.4'
-gem 'omniauth_crowd', '~> 2.4.0', path: 'vendor/gems/omniauth_crowd' # See vendor/gems/omniauth_crowd/README.md
+gem 'omniauth_crowd', '~> 2.4.0', path: 'vendor/gems/omniauth_crowd' # veja vendor/gems/omniauth_crowd/readme.md
 gem 'omniauth_openid_connect', '~> 0.6.1'
 
 # trancado até o ruby 3.0 atualizar em uma atualização gem net-smtp
 # https://docs.gitlab.com/ee/development/emails.html#rationale
 gem 'openid_connect', '= 1.3.0'
-gem 'omniauth-salesforce', '~> 1.0.5', path: 'vendor/gems/omniauth-salesforce' # See gem README.md
+gem 'omniauth-salesforce', '~> 1.0.5', path: 'vendor/gems/omniauth-salesforce' # veja a gema de readme.md
 gem 'omniauth-atlassian-oauth2', '~> 0.2.0'
 gem 'rack-oauth2', '~> 1.21.3'
 gem 'jwt', '~> 2.5'
@@ -202,7 +202,7 @@ gem 'diff_match_patch', '~> 0.1.0'
 # servidor de aplicação
 gem 'rack', '~> 2.2.7'
 
-# # https://github.com/zombocom/rack-timeout/blob/master/README.md#rails-apps-manually
+# https://github.com/zombocom/rack-timeout/blob/master/README.md#rails-apps-manually
 gem 'rack-timeout', '~> 0.6.3', require: 'rack/timeout/base'
 
 group :puma do
