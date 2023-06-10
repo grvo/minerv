@@ -1,0 +1,28 @@
+---
+start-release-environments-pipeline:
+  allow_failure: true
+
+  extends:
+    - .release-environments:rules:start-release-environments-pipeline
+
+  stage: release-environments
+
+  # não queremos que todas as variáveis globais sejam passadas como variáveis de gatilho,
+  # pois não podem ser substituídos. veja este problema para mais contexto:
+  #
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/387183
+  inherit:
+    variables:
+      - RUBY_VERSION
+
+  # essas variáveis são definidas nos cronogramas do pipeline.
+  # eles precisam ser passados explicitamente para o pipeline filho.
+  #
+  # https://docs.gitlab.com/ee/ci/pipelines/multi_project_pipelines.html#pass-cicd-variables-to-a-downstream-pipeline-by-using-the-variables-keyword
+  variables:
+    # isso é necessário por `release-environments-build-cng-env` (`.gitlab/ci/release-environments/main.gitlab-ci.yml`).
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+
+  trigger:
+    strategy: depend
+    include: .gitlab/ci/release-environments/main.gitlab-ci.yml

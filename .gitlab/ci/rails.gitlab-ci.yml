@@ -4,24 +4,29 @@ include:
   - local: .gitlab/ci/rails/shared.gitlab-ci.yml
 
 ###############################################################
-# EE/FOSS: default refs (MRs, default branch, schedules) jobs #
+# ee/foss: referências padrões (mrs, branch padrão) trabalhos #
 setup-test-env:
   extends:
     - .rails-job-base
     - .setup-test-env-cache
     - .rails:rules:setup-test-env
+
   stage: prepare
+
   variables:
     SETUP_DB: "false"
+
   script:
     - echo $CI_MERGE_REQUEST_APPROVED
     - source scripts/gitlab_component_helpers.sh
     - run_timed_command "download_and_extract_gitlab_workhorse_package" || true
     - section_start "setup-test-env" "Setting up testing environment"; scripts/setup-test-env; section_end "setup-test-env";
     - select_gitlab_workhorse_essentials
-    - section_start "gitaly-test-build" "Compiling Gitaly binaries"; scripts/gitaly-test-build; section_end "gitaly-test-build";  # Do not use 'bundle exec' here
+    - section_start "gitaly-test-build" "compilando binários gitaly"; scripts/gitaly-test-build; section_end "gitaly-test-build";  # não utilizar 'bundle exec' aqui
+
   artifacts:
     expire_in: 7d
+
     paths:
       - ${TMP_TEST_FOLDER}/gitaly/_build/bin/
       - ${TMP_TEST_FOLDER}/gitaly/config.toml
@@ -39,6 +44,7 @@ setup-test-env:
       - ${TMP_TEST_FOLDER}/repositories/
       - ${TMP_TEST_FOLDER}/second_storage/
       - ${TMP_TEST_GITLAB_WORKHORSE_PATH}/
+
     when: always
 
 update-setup-test-env-cache:
@@ -46,21 +52,24 @@ update-setup-test-env-cache:
     - setup-test-env
     - .setup-test-env-cache-push
     - .shared:rules:update-cache
+
   artifacts:
-    paths: []  # This job's purpose is only to update the cache.
+    paths: [] # o objetivo deste trabalho é apenas atualizar o cache.
 
 update-gitaly-binaries-cache:
   extends:
     - setup-test-env
     - .gitaly-binaries-cache-push
     - .shared:rules:update-gitaly-binaries-cache
+
   artifacts:
-    paths: []  # This job's purpose is only to update the cache.
+    paths: [] # o objetivo deste trabalho é apenas atualizar o cache.
 
 .coverage-base:
   extends:
     - .default-retry
     - .coverage-cache
+
   before_script:
     - source scripts/utils.sh
     - export BUNDLE_WITHOUT="${BUNDLE_WITHOUT}:default:test:puma:kerberos:metrics:omnibus:ed25519"
@@ -932,8 +941,11 @@ fail-pipeline-early:
 .base-rspec-pg13-rerun-previous-failed-tests:
   extends:
     - .rails:rules:rerun-previous-failed-tests
+
   stage: test
+
   needs: ["setup-test-env", "retrieve-tests-metadata", "compile-test-assets", "detect-previous-failed-tests"]
+
   script:
     - !reference [.base-script, script]
     - rspec_rerun_previous_failed_tests "${PREVIOUS_FAILED_TESTS_FILE}"
@@ -942,6 +954,7 @@ rspec rspec-pg13-rerun-previous-failed-tests:
   extends:
     - .rspec-base-pg13
     - .base-rspec-pg13-rerun-previous-failed-tests
+
   variables:
     PREVIOUS_FAILED_TESTS_FILE: tmp/previous_failed_tests/rspec_failed_tests.txt
 
@@ -949,6 +962,7 @@ rspec rspec-ee-pg13-rerun-previous-failed-tests:
   extends:
     - .rspec-ee-base-pg13
     - .base-rspec-pg13-rerun-previous-failed-tests
+
   variables:
     PREVIOUS_FAILED_TESTS_FILE: tmp/previous_failed_tests/rspec_ee_failed_files.txt
 # ee: pipelines canônicos do mr
