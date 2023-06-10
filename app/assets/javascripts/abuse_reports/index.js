@@ -1,10 +1,10 @@
-// imports de dependências
+// import de dependência
 import Vue from 'vue';
 
-// imports locais
+// import local
 import LinksToSpamInput from './components/links_to_spam_input.vue';
 
-// exports
+// export
 export const initLinkToSpam = () => {
     const el = document.getElementById('js-links-to-spam');
 
