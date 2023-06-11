@@ -1,0 +1,12 @@
+query projectWorkItemTypes($fullPath: ID!) {
+    workspace: project(fullPath: $fullPath) {
+        id
+
+        workItemTypes {
+            nodes {
+                id
+                name
+            }
+        }
+    }
+}
