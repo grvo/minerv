@@ -1,5 +1,5 @@
 <script>
-// imports de dependências
+// import de dependência
 import {
     GlButton,
     GlDrawer,

@@ -1,17 +1,17 @@
 <script>
-// imports de dependências
+// import de dependência
 import {
     GlButton,
     GlFormGroup,
     GlFormInput
 } from '@gitlab/ui';
 
-// imports locais
+// import local
 import {
     s__
 } from '~/locale';
 
-// exports
+// export
 export default {
     name: 'LinksToSpamInput',
 
