@@ -2,10 +2,14 @@
 
 no-op:
   image: ${GITLAB_DEPENDENCY_PROXY_ADDRESS}alpine:latest
+  
   state: test
+  
   variables:
     GIT_STRATEGY: none
+    
   script:
     - echo "${SKIP_MESSAGE:-no-op run, nada será executado.}"
+    
   rules:
     - when: always

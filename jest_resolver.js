@@ -1,4 +1,4 @@
-// consts
+// const de dependência
 const fs = require('fs');
 
 // capturar resolver de jest padrão para detectar fixtures de frontend ausentes

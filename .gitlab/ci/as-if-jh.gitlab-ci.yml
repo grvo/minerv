@@ -1,0 +1,131 @@
+.as-if-jh-sandbox-variables:
+  variables:
+    AS_IF_JH_BRANCH: "as-if-jh/${CI_COMMIT_REF_NAME}"
+    SANDBOX_REPOSITORY: "https://dummy:${AS_IF_JH_TOKEN}@gitlab.com/gitlab-org-sandbox/gitlab-jh-validation.git"
+
+.shared-as-if-jh:
+  extends:
+    - .as-if-jh-sandbox-variables
+    
+  variables:
+    GITLAB_JH_MIRROR_PROJECT: "33019816"
+    JH_FILES_TO_COMMIT: "jh package.json yarn.lock"
+
+add-jh-files:
+  extends:
+    - .shared-as-if-jh
+    - .as-if-jh:rules:prepare-as-if-jh
+    
+  image: ${GITLAB_DEPENDENCY_PROXY_ADDRESS}ruby:${RUBY_VERSION}
+  
+  stage: prepare
+  
+  needs: []
+  
+  before_script:
+    - source ./scripts/utils.sh
+    - source ./scripts/setup/as-if-jh.sh
+    - install_gitlab_gem
+    
+  script:
+    - prepare_jh_branch
+    - download_jh_path ${JH_FILES_TO_COMMIT}
+    - echoinfo "alterações após o download de arquivos jihu:"
+    - git diff
+    - git status
+    
+  artifacts:
+    expire_in: 2d
+    
+    paths:
+      # deve corresponder com jh_files_to_commit
+      - jh/
+      - package.json
+      - yarn.lock
+
+prepare-as-if-jh-branch:
+  extends:
+    - .shared-as-if-jh
+    - .as-if-jh:rules:prepare-as-if-jh
+    
+  stage: prepare
+  
+  needs:
+    - add-jh-files
+    
+  variables:
+    # We can't apply --filter=tree:0 for runner to set up the repository,
+    # so instead we tell runner to not clone anything, and we set up the
+    # repository by ourselves.
+    GIT_STRATEGY: "none"
+    
+  before_script:
+    - git clone --filter=tree:0 "${CI_REPOSITORY_URL}" gitlab
+    
+    # devemos verificar antes de mover/alterar arquivos
+    - cd gitlab
+    - git checkout -b "${AS_IF_JH_BRANCH}" "${CI_COMMIT_SHA}"
+    - cd ..
+    - mv ${JH_FILES_TO_COMMIT} gitlab/
+    
+  script:
+    - cd gitlab
+    - git add ${JH_FILES_TO_COMMIT}
+    - git commit -m 'Add JH files' # todo: marcar qual sha será adicionado
+    - git push -f "${SANDBOX_REPOSITORY}" "${AS_IF_JH_BRANCH}"
+
+sync-as-if-jh-branch:
+  extends:
+    - .as-if-jh-sandbox-variables
+    - .as-if-jh:rules:sync-as-if-jh
+    
+  stage: prepare
+  
+  needs: ["prepare-as-if-jh-branch"]
+  
+  inherit:
+    variables:
+      # de .gitlab-ci.yml para a imagem padrão do docker
+      - DEFAULT_CI_IMAGE
+      - REGISTRY_HOST
+      - REGISTRY_GROUP
+      - DEBIAN_VERSION
+      - RUBY_VERSION
+      - GO_VERSION
+      - RUST_VERSION
+      - PG_VERSION
+      - RUBYGEMS_VERSION
+      - CHROME_VERSION
+      - NODE_ENV
+      
+  variables:
+    MERGE_FROM: "${CI_COMMIT_SHA}"  # usado em https://jihulab.com/gitlab-cn/gitlab/-/blob/e98bcb37aea4cfe1e78e1daef1b58b5f732cf289/jh/bin/build_packagejson onde rodamos em https://gitlab.com/gitlab-org-sandbox/gitlab-jh-validation
+  
+  trigger:
+    # roda o que está encontrado nesse url:
+    # https://gitlab.com/gitlab-org-sandbox/gitlab-jh-validation/-/blob/as-if-jh-code-sync/jh/.gitlab-ci.yml
+    project: gitlab-org-sandbox/gitlab-jh-validation
+    branch: as-if-jh-code-sync
+    strategy: depend
+
+start-as-if-jh:
+  extends:
+    - .as-if-jh:rules:start-as-if-jh
+    
+  stage: prepare
+  
+  needs:
+    - job: "prepare-as-if-jh-branch"
+    - job: "sync-as-if-jh-branch"
+      optional: true
+      
+  inherit:
+    variables: false
+    
+  variables:
+    FORCE_GITLAB_CI: "true"  # todo: acionar pipeline de solicitação de mesclagem
+    
+  trigger:
+    project: gitlab-org-sandbox/gitlab-jh-validation
+    branch: as-if-jh/${CI_COMMIT_REF_NAME}
+    strategy: depend

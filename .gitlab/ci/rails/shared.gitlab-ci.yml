@@ -6,12 +6,13 @@ include:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       allow_failure: true
+      
     - if: $CI_MERGE_REQUEST_IID
       when: manual
       allow_failure: true
 
-#######################
-# rspec job base specs
+############################
+# specs de base de rspec job
 
 .rails-job-base:
   extends:
@@ -57,31 +58,39 @@ include:
   extends:
     - .rails-job-base
     - .base-artifacts
+    
   stage: test
+  
   variables:
     RUBY_GC_MALLOC_LIMIT: 67108864
     RUBY_GC_MALLOC_LIMIT_MAX: 134217728
     RECORD_DEPRECATIONS: "true"
     GEO_SECONDARY_PROXY: 0
     SUCCESSFULLY_RETRIED_TEST_EXIT_CODE: 137
+    
   needs:
     - job: "setup-test-env"
     - job: "retrieve-tests-metadata"
     - job: "compile-test-assets"
+    
     - job: "detect-tests"
       optional: true
+      
   script:
     - !reference [.base-script, script]
 
     # é necessário excluir a migração de background para testes units rodarem
     - rspec_paralellized_job "--tag ~quarantine --tag ~level:background_migration"
+    
   allow_failure:
     exit_codes: !reference [.rspec-base, variables, SUCCESSFULLY_RETRIED_TEST_EXIT_CODE]
 
 .base-artifacts:
   artifacts:
     expire_in: 31d
+    
     when: always
+    
     paths:
       - coverage/
       - crystalball/
@@ -91,6 +100,7 @@ include:
       - rspec/
       - tmp/capybara/
       - log/*.log
+      
     reports:
       junit: ${JUNIT_RESULT_FILE}
 
@@ -114,6 +124,7 @@ include:
     - .rspec-base
     - .as-if-foss
     - .use-pg13
+    
   needs:
     - job: "setup-test-env"
     - job: "retrieve-tests-metadata"
@@ -182,14 +193,16 @@ include:
     - .rails-job-base
     - .rails:rules:ee-and-foss-migration
     - .use-pg13
+    
   stage: test
+  
   needs: ["setup-test-env"]
 
-# rspec job base specs
-######################
-
+# specs de base de rspec job
 ############################
-# rspec job parallel configs
+
+##########################################
+# configurações paralelas de jobs de rspec
 
 .rspec-migration-parallel:
   parallel: 8
@@ -221,5 +234,5 @@ include:
 .rspec-ee-system-parallel:
   parallel: 10
 
-# rspec job parallel configs
-############################
+# configurações paralelas de jobs de rspec
+##########################################

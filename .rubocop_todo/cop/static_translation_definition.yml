@@ -1,0 +1,6 @@
+---
+Cop/StaticTranslationDefinition:
+  Exclude:
+    - 'app/models/diff_viewer/image.rb'
+    - 'app/models/diff_viewer/rich.rb'
+    - 'app/models/diff_viewer/simple.rb'

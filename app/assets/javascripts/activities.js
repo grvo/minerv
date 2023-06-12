@@ -1,12 +1,26 @@
 /* eslint-disable class-methods-use-this */
 
-// imports
+// import de dependência
 import $ from 'jquery';
-import { setCookie } from '~/lib/utils/common_utils';
-import { createAlert } from '~/alert';
-import { s__ } from '~/locale';
-import { localTimeAgo } from './lib/utils/datetime_utility';
+
+// imports locais
 import Pager from './pager';
+
+import {
+    setCookie
+} from '~/lib/utils/common_utils';
+
+import {
+    createAlert
+} from '~/alert';
+
+import {
+    s__
+} from '~/locale';
+
+import {
+    localTimeAgo
+} from './lib/utils/datetime_utility';
 
 export default class Activities {
     constructor(containerSelector = '') {
