@@ -1,4 +1,4 @@
-// consts
+// const de dependência
 const fs = require('fs');
 
 // consts locais
