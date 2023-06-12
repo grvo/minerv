@@ -1,4 +1,4 @@
-// consts
+// consts locais
 const IS_EE = require('./config/helpers/is_ee_env');
 const isESLint = require('./config/helpers/is_eslint');
 const IS_JH = require('./config/helpers/is_jh_env');
@@ -7,15 +7,20 @@ const {
     VUE_VERSION: EXPLICIT_VUE_VERSION
 } = process.env;
 
+// apenas v2 e v3 são suportados (vue)
 if (![undefined, '2', '3'].includes(EXPLICIT_VUE_VERSION)) {
     throw new Error(
         `valor vue_version inválido: ${EXPLICIT_VUE_VERSION}. apenas '2' e '3' são suportados.`
     );
 }
 
+// vue versão 3 (v3)
 const USE_VUE_3 = EXPLICIT_VUE_VERSION === '3';
 
-const { TEST_HOST } = require('./spec/frontend/__helpers__/test_constants');
+// host de teste
+const {
+    TEST_HOST
+} = require('./spec/frontend/__helpers__/test_constants');
 
 module.exports = (path, options = {}) => {
     const {
