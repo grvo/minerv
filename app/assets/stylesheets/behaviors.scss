@@ -1,0 +1,5 @@
+// esconder elemento caso o vue continue trabalhando em renderização
+
+[v-cloak='true'] {
+    display: none !important;
+}
