@@ -1,0 +1,43 @@
+// css de minerv
+//
+// para casos de adição ou modificações de componentes ui
+// que esteja em comum com várias páginas, como um table ou uma tipografia
+// fazer então mudanças no diretório `framework/`.
+//
+// para casos que se trate da adição de estilos únicos
+// (que afetarão apenas uma única página),
+// usar então o diretório `pages/`
+
+@import '@gitlab/at.js/dist/css/jquery.atwho';
+@import 'dropzone/dist/basic';
+
+// framework de interface de usuário de minerv
+@import 'framework';
+
+// estilizações para páginas específicas
+@import 'page_specific_files';
+
+// estilizações de componentes específicos
+@import 'components/**/*';
+
+// estilizações de vendors específicos
+@import 'vendors/**/*';
+
+// estilizações para behaviors javascript
+@import 'behaviors';
+
+// estilizações para atributos apenas ee
+@import 'application_ee';
+
+// estilizações para atributos apenas jh
+@import 'application_jh';
+
+/* estilização de print */
+@media print {
+    @import 'print';
+}
+
+/* regras para cloaking em startup-general.scss */
+@import 'startup/cloaking';
+
+@include cloak-startup-scss(block);
