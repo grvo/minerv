@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+APP_ROOT = File.expand_path('..', __dir__)
+
+Dir.chdir(APP_ROOT) do
+	begin
+		exec "yarnpkg", *ARGV
+	rescue Errno::ENOENT
+		$stderr.puts "executável yarn não foi detectado no sistema."
+		$stderr puts "baixe o yarn em https://yarnpkg.com/en/docs/install"
+		
+		exit 1
+	end
+end
