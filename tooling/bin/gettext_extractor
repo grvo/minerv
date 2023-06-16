@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require_relative '../lib/tooling/gettext_extractor'
+
+pot_file = ARGV.shift
+
+if !pot_file || !Dir.exist?(File.dirname(pot_file))
+	abort <<~MSG
+		por favor, forneça um nome de arquivo alvo como argumento primário, e.g.
+			#{PROGRAM_NAME} locale/gitlab.pot
+	MSG
+end
+
+puts <<~MSG
+	extraindo strings traduzíveis de arquivos fonte...
+MSG
+
+root_dir = File.expand_path('../../', __dir__)
+
+extractor = Tooling::GettextExtractor.new(
+	glob_base: root_dir
+)
+
+File.write(pot_file, extractor.generate_pot)
+
+puts <<~MSG
+	tudo feito. por favor, commit as mudanças para `#{pot_file}`.
+MSG
