@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'gitlab'
+
+# script utilizado para confirmar que appsec tenha sido aprovado para upstream de atribuições de jihu
+#
+# irá despejar um erro caso a aprovação esteja ausente do mr quando é rodado
+
+gitlab_token = ENV.fetch('PROJECT_TOKEN_FOR_CI_SCRIPTS_API_USAGE')
+gitlab_endpoint = ENV.fetch('CI_API_V4_URL')
+
+mr_project_path = ENV['CI_MERGE_REQUEST_PROJECT_PATH']
+mr_iid = ENV['CI_MERGE_REQUEST_IID']
+
+approval_label = "sec-planning::complete"
+
+warn "aviso: ci_merge_request_project_path está ausente." if mr_project_path.to_s.empty?
+warn "aviso: ci_merge_request_iid está ausente." if mr_iid.to_s.empty?
+
+unless mr_project_path && mr_iid
+	warn "erro: saindo porque isso não parece ser um pipeline de solicitação de mesclagem."
+	
+	exit
+end
+
+Gitlab.configure do |config|
+	config.endpoint      = gitlab_endpoint
+	config.private_token = gitlab_token
+end
+
+if Gitlab.merge_request(mr_project_path, mr_iid).labels.include?(approval_label)
+	puts 'info: nenhuma ação necessária.'
+else
+	abort('erro: esta solicitação de mesclagem não foi aprovada pela segurança do aplicativo e é necessária antes da mesclagem.')
+end
