@@ -1,0 +1,90 @@
+$draft-actions-left-margin: 40px + $gl-padding;
+
+.draft-note-component {
+    margin: 0;
+
+    .referenced-commands.draft-note-commands {
+        @include gl-text-gray-500;
+
+        background: $orange-50;
+        font-size: $label-font-size;
+    }
+
+    .timeline-entry {
+        background-color: transparent;
+    }
+
+    .draft-note-actions {
+        margin: 0;
+    }
+}
+
+button[disabled] {
+    &,
+    &:focus,
+    &:hover {
+        .gl-badge {
+            background: $gray-100;
+            color: $gray-500;
+        }
+    }
+}
+
+.diff-file:not(.discussion-wrapper) .note.draft-note {
+    background: $orange-50;
+
+    margin: 0 -1px;
+
+    border-radius: 3px;
+
+    .timeline-entry-inner {
+        border: 1px solid $orange-400;
+    }
+
+    &.is-editing {
+        margin-bottom: 0;
+    }
+}
+
+.diff-line.discussion-wrapper .note.draft-note {
+    .timeline-entry-inner {
+        border-bottom: 1px solid $border-color;
+        border-bottom-left-radius: $gl-border-radius-base;
+        border-bottom-right-radius: $gl-border-radius-base;
+
+        background-color: $orange-50 !important;
+    }
+}
+
+.discussion-body,
+.diff-file {
+    .notes_holder {
+        .notes-content {
+            .notes {
+                &.draft-notes {
+                    &::before {
+                        border: 0;
+                    }
+
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+}
+
+.diffs .draft-note-component .referenced-commands.draft-note-commands {
+    margin: 0;
+
+    border-radius: 0;
+}
+
+.referenced-commands.draft-note-commands {
+    @include gl-text-gray-500;
+
+    background-color: transparent;
+
+    border: 0;
+
+    padding: $gl-padding-8 0 0;
+}
