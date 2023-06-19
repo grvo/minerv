@@ -3,6 +3,7 @@ const IS_EE = require('./config/helpers/is_ee_env');
 const isESLint = require('./config/helpers/is_eslint');
 const IS_JH = require('./config/helpers/is_jh_env');
 
+// versão explícita de vue
 const {
     VUE_VERSION: EXPLICIT_VUE_VERSION
 } = process.env;
