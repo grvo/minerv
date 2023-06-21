@@ -62,6 +62,7 @@ module Namespaces
                 {
                     track_action: 'render',
                     track_label: 'user_limit_banner',
+
                     testid: 'user-over-limit-free-plan-alert'
                 }
             end
@@ -70,19 +71,40 @@ module Namespaces
                 {
                     track_action: 'dismiss_banner',
                     track_label: 'user_limit_banner',
+
                     testid: 'user-over-limit-free-plan-dismiss'
                 }
             end
 
-            # todo: namespace_primary_cta
+            def namespace_primary_cta
+                link_to _('gerenciar membros'), group_usage_quotas_path(namespace), class: 'btn gl-alert-action btn-info btn-md gl-button', data: {
+                    track_action: 'click_button',
+                    track_label: 'manage_members',
 
-            # todo: namespace_secondary_cta
+                    testid: 'user-over-limit-primary-cta'
+                }
+            end
 
-            # todo: link_end
+            def namespace_secondary_cta
+                link_to _('explorar planos pagos'), group_billings_path(namespace, source: 'user-limit-alert-enforcement'), class: 'btn gl-alert-action btn-default btn-md gl-button', data: {
+                    track_action: 'click_button',
+                    track_label: 'explore_paid_plans',
 
-            # todo: container_class
+                    testid: 'user-over-limit-secondary-cta'
+                }
+            end
 
-            # todo: free_user_limit
+            def link_end
+                '</a>'.html_safe
+            end
+
+            def container_class
+                "gl-overflow-auto #{content_class}"
+            end
+
+            def free_user_limit
+                ::Namespaces::FreeUserCap.dashboard_limit
+            end
 
             def blog_link_start
                 "<a href='#{BLOG_URL}' target='_blank' rel='noopener noreferrer'>".html_safe
