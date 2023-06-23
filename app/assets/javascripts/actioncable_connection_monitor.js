@@ -151,7 +151,7 @@ class ConnectionMonitor {
                 }
             }, 200);
         }
-    }    
+    }
 }
 
 ConnectionMonitor.staleThreshold = 6; // server::connections::beat_interval * 2 (dois pings)
