@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+# esse arquivo não está nomeado como "dangerfile", então não é importado por padrão a não ser que ele esteja rodando o job `bundle-size-review`.
+
+comment = `cat ./bundle-size-review/comparison.md`
+
+unless comment.strip.empty?
+    markdown(<<~MARKDOWN)
+        #{comment}
+    MARKDOWN
+end
