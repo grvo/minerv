@@ -1,0 +1,24 @@
+# frozen_string_literal: true
+
+all_changed_files = helper.all_changed_files
+
+def get_ci_config_files(files)
+    files.select do |file|
+        file.include?('gitlab/ci/config/entry')
+    end
+end
+
+schema_path = 'app/assets/javascripts/editor/schema/ci.json'
+schema_docs_path = 'https://docs.gitlab.com/ee/development/cicd/schema.html#write-specs'
+
+has_schema_update = all_changed_files.include?(schema_path)
+
+return if has_schema_update
+
+ci_config_files = get_ci_config_files(all_changed_files)
+
+return if ci_config_files.empty?
+
+file_list = "- #{ci_config_files.map { |path| "`#{path}`" }.join("\n- ")}"
+
+warn "esse merge request alterou os arquivos de configuração de ci mas não atualizou o schema. por favor, considere atualizar [o schema](#{schema_path}) para refletir essas mudanças:\n#{file_list}.\n\nreferir para o [docs](#{schema_docs_path}) para ajuda ou como rodar e escrever specs para o ci do schema."
