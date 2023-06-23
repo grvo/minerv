@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+
+BLUEPRINT_LABEL = 'diagrama de evolução de arquitetura'
+
+return unless helper.ci?
+
+blueprint_changes = helper.changed_files(%r{^doc/architecture/blueprints/.*})
+
+BLUEPRINT_SHORT_MESSAGE = <<~MSG
+esse merge request necessita de uma review de um [coach de evolução de arquitetura](https://about.gitlab.com/handbook/engineering/architecture/workflow/).
+MSG
+
+BLUEPRINT_LONG_MESSAGE <<~MSG
+## review de evolução de arquitetura
+
+#{BLUEPRINT_SHORT_MESSAGE}
+
+arquivos seguintes, que talvez necessitem de review adicional, precisam ser alterados:
+#{helper.markdown_list(blueprint_changes.to_set)}
+MSG
+
+if blueprint_changes.any?
+    message(BLUEPRINT_SHORT_MESSAGE)
+    markdown(BLUEPRINT_LONG_MESSAGE)
+
+    helper.labels_to_add.push(BLUEPRINT_LABEL) unless helper.mr_has_labels?(BLUEPRINT_LABEL)
+end
