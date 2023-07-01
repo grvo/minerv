@@ -1,0 +1,18 @@
+# esse arquivo é usado para a configuraçãod e actioncable para seu ambiente CI
+#
+# usado o gdk ou omnibus, cable.yml é gerado de uma template diferente
+
+development:
+  adapter: redis
+  url: redis://localhost:6379
+  channel_prefix: gitlab_development
+
+test:
+  adapter: redis
+  url: redis://localhost:6379
+  channel_prefix: gitlab_test
+
+production:
+  adapter: redis
+  url: unix:/var/run/redis/redis.sock
+  channel_prefix: gitlab_production
